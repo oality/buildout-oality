@@ -15,10 +15,10 @@ class Environment(object):
     def __init__(
         self,
         env=os.environ,
-        zope_conf="/plone/instance/parts/instance/etc/zope.conf",
-        custom_conf="/plone/instance/custom.cfg",
-        zeopack_conf="/plone/instance/bin/zeopack",
-        zeoserver_conf="/plone/instance/parts/zeoserver/etc/zeo.conf",
+        zope_conf="/plone/parts/instance/etc/zope.conf",
+        custom_conf="/plone/custom.cfg",
+        zeopack_conf="/plone/bin/zeopack",
+        zeoserver_conf="/plone/parts/zeoserver/etc/zeo.conf",
     ):
         self.env = env
         self.zope_conf = zope_conf
@@ -43,7 +43,7 @@ class Environment(object):
 
         read_only = self.env.get("ZEO_READ_ONLY", "false")
         zeo_ro_fallback = self.env.get("ZEO_CLIENT_READ_ONLY_FALLBACK", "false")
-        shared_blob_dir = self.env.get("ZEO_SHARED_BLOB_DIR", "off")
+        shared_blob_dir = self.env.get("ZEO_SHARED_BLOB_DIR", "on")
         zeo_storage = self.env.get("ZEO_STORAGE", "1")
         zeo_client_cache_size = self.env.get("ZEO_CLIENT_CACHE_SIZE", "128MB")
         zeo_conf = ZEO_TEMPLATE.format(
