@@ -1,0 +1,17 @@
+version: '3'
+services:
+  sut:
+    build: .
+    #depends_on:
+    #  - zeo
+    #  - instance
+    command: >
+        sh -c "
+          if id -u plone | grep -q '1000' && date | grep -q 'CEST'; then
+            echo \"Tests passed!\"
+            exit 0
+          else
+            echo \"Tests failed!\"
+            exit 1
+          fi
+        "

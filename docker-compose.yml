@@ -1,0 +1,42 @@
+version: '3'
+services:
+  zeo:
+    build:
+      context: .
+    image: oality
+    volumes:
+      - ./var/blobstorage:/data/blobstorage
+      - ./var/filestorage:/data/filestorage
+    command: bin/zeoserver fg
+    expose:
+      - 8100
+    healthcheck:
+      test: ["CMD", "nc", "-z", "-w5", "127.0.0.1", "8100"]
+  instance:
+    image: oality
+    ports:
+      - 8080:8080
+    links:
+      - zeo
+    volumes:
+      - ./var/blobstorage:/data/blobstorage
+    command: fg
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.instance.rule=Host(`portal.localhost`)'
+      - 'traefik.http.routers.instance.entrypoints=web'
+      - 'traefik.http.services.instance.loadbalancer.server.port=8080'
+      - "traefik.http.routers.instance.middlewares=add-plone"
+      - "traefik.http.middlewares.add-plone.addprefix.prefix=/VirtualHostBase/http/portal.localhost/Plone/VirtualHostRoot"
+
+  reverseproxy:
+    image: traefik
+    command:
+      - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--entryPoints.web.address=:80'
+    ports:
+      - '80:80' # The HTTP port
+      - '8000:8080' # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
