@@ -33,7 +33,7 @@ RUN apk add --update --no-cache --virtual .build-deps \
 
 WORKDIR /plone
 RUN chown plone:plone -R /plone && chown plone:plone -R /data
-COPY --chown=plone eggs /plone/eggs/
+# COPY --chown=plone eggs /plone/eggs/
 COPY --chown=plone *.cfg /plone/
 COPY --chown=plone scripts /plone/scripts
 RUN su -c "buildout -c prod.cfg -t 30 -N" -s /bin/sh plone
