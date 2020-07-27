@@ -19,6 +19,9 @@ bin/pip:
 run: bin/instance
 	bin/instance fg
 
+start: bin/instance
+	bin/instance start
+
 docker-image:
 	docker build --pull -t oality/buildout-oality:latest .
 
