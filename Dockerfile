@@ -39,7 +39,7 @@ COPY --chown=plone scripts /plone/scripts
 RUN su -c "buildout -c prod.cfg -t 30 -N" -s /bin/sh plone
 
 
-FROM python:3-8-alpine
+FROM python:3.8-alpine
 
 ENV PIP=9.0.3 \
   ZC_BUILDOUT=2.13.3 \
