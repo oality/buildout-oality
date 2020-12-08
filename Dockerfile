@@ -1,10 +1,10 @@
-FROM python:alpine as builder
+FROM python:3.8-alpine as builder
 ENV PIP=9.0.3 \
-  ZC_BUILDOUT=2.13.2 \
-  SETUPTOOLS=41.0.1 \
+  ZC_BUILDOUT=2.13.3 \
+  SETUPTOOLS=42.0.2 \
   WHEEL=0.31.1 \
   PLONE_MAJOR=5.2 \
-  PLONE_VERSION=5.2.1
+  PLONE_VERSION=5.2.3
 
 RUN addgroup -g 1000 plone \
  && adduser -S -D -G plone -u 1000 plone \
@@ -39,13 +39,13 @@ COPY --chown=plone scripts /plone/scripts
 RUN su -c "buildout -c prod.cfg -t 30 -N" -s /bin/sh plone
 
 
-FROM python:alpine
+FROM python:3-8-alpine
 
 ENV PIP=9.0.3 \
-  ZC_BUILDOUT=2.13.2 \
-  SETUPTOOLS=41.0.1 \
+  ZC_BUILDOUT=2.13.3 \
+  SETUPTOOLS=42.0.2\
   WHEEL=0.31.1 \
-  PLONE_VERSION=5.2.1 \
+  PLONE_VERSION=5.2.3 \
   TZ=Europe/Brussel \
   ZEO_HOST=zeo \
   ZEO_PORT=8100 \
@@ -77,7 +77,7 @@ RUN apk add --no-cache --virtual .run-deps \
 LABEL plone=$PLONE_VERSION \
   os="alpine" \
   os.version="3.10" \
-  name="Plone 5.2.1" \
+  name="Plone 5.2.3" \
   description="Plone image for oality backend website" \
   maintainer="Benoît Suttor"
 
