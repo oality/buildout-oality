@@ -6,7 +6,7 @@ buildout.cfg:
 	ln -fs dev.cfg buildout.cfg
 
 bin/buildout: bin/pip buildout.cfg
-	bin/pip install -I -r requirements.txt
+	bin/pip install -r requirements.txt
 
 buildout: bin/instance
 
@@ -14,7 +14,7 @@ bin/instance: bin/buildout
 	bin/buildout
 
 bin/pip:
-	virtualenv -p python3 .
+	python3.8 -m venv .
 
 run: bin/instance
 	bin/instance fg
